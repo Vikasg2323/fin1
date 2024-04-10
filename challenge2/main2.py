@@ -1,6 +1,5 @@
 import json
 from collections import Counter
-from typing import List, Tuple
 
 def load_data(filename: str) -> List[int]:
     """Load a list of integers from a JSON file."""
@@ -48,3 +47,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
