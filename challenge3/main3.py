@@ -5,11 +5,11 @@ def perform_google_search(query: str) -> str:
     base_url = 'https://www.google.com/search'
     params = {'q': query}
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
     try:
-        response = requests.get(base_url, params=params, headers=headers)
-        response.raise_for_status()  # Check if the request was blocked
+        response = requests.get(base_url, params=params, headers=headers, allow_redirects=True)
+        response.raise_for_status()  # Check if the request was successful
         return response.text
     except requests.RequestException as e:
         print(f"Error fetching search results: {e}")
@@ -18,7 +18,7 @@ def perform_google_search(query: str) -> str:
 def parse_search_results(html_content: str):
     soup = BeautifulSoup(html_content, 'html.parser')
     results = []
-    for result in soup.select('.tF2Cxc'):  # Ensure class .tF2Cxc is still valid
+    for result in soup.select('.tF2Cxc'):  # Use a more specific selector
         title = result.select_one('h3').text if result.select_one('h3') else 'No Title'
         link = result.select_one('a')['href'] if result.select_one('a') else 'No Link'
         results.append({
@@ -44,3 +44,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
