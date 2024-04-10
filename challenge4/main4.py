@@ -10,19 +10,29 @@ def extract_information_and_tables(pdf_path: str) -> dict:
     
     with pdfplumber.open(pdf_path) as pdf:
         for page in pdf.pages:
-            # TODO: Extract text from the page and add it to extracted_data["text"]
+            # Extract text from the page
+            extracted_text = page.extract_text()
+            extracted_data["text"].append(extracted_text)
             
-            # TODO: Extract table data from the page, process it into dictionaries, and add to extracted_data["tables"]
+            # Extract table data from the page
+            tables_on_page = page.extract_tables()
+            for table in tables_on_page:
+                table_dict = {
+                    "headers": table[0],  # Assuming the first row contains headers
+                    "rows": table[1:]  # Remaining rows contain data
+                }
+                extracted_data["tables"].append(table_dict)
                 
     return extracted_data
 
 def save_extracted_data(data: dict, output_file: str):
     """Save the extracted data to a JSON file."""
-    # TODO: Implement saving logic to write the `data` dict to the specified `output_file` in JSON format
+    with open(output_file, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
 def main():
-    pdf_path = 'input.pdf'  # TODO: Specify the path to the input PDF file
-    output_file = 'output.json'  # TODO: Specify the path to the output JSON file
+    pdf_path = 'input.pdf'  # Specify the path to the input PDF file
+    output_file = 'output.json'  # Specify the path to the output JSON file
     
     # Extract data from PDF
     extracted_data = extract_information_and_tables(pdf_path)
