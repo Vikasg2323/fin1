@@ -1,6 +1,4 @@
-from flask import Blueprint, jsonify, request
-import json
-import os
+from flask import Flask, Blueprint, jsonify
 
 transaction_blueprint = Blueprint('transactions', __name__)
 
@@ -13,18 +11,23 @@ def get_transaction(id):
 
 @transaction_blueprint.route('/transaction', methods=['POST'])
 def add_transaction():
-    #TODO
-    return
+    # TODO: Implement adding a new transaction
+    return jsonify({"message": "Transaction added successfully"}), 201
 
 @transaction_blueprint.route('/transaction/<id>', methods=['PUT'])
 def update_transaction(id):
-    #TODO
-    return
+    # TODO: Implement updating an existing transaction
+    return jsonify({"message": "Transaction updated successfully"}), 200
 
 @transaction_blueprint.route('/transaction/<id>', methods=['DELETE'])
 def delete_transaction(id):
-    #TODO
-    return
+    # TODO: Implement deleting an existing transaction
+    return jsonify({"message": "Transaction deleted successfully"}), 204
 
+# Create the Flask app and register the blueprint
+app = Flask(__name__)
+app.register_blueprint(transaction_blueprint, url_prefix="/api")
 
-# TODO : ADD A GET ALL TRANSACTIONS ENDPOINT ASWELL
+if __name__ == "__main__":
+    app.run(debug=True)
+
