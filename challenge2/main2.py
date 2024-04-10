@@ -1,5 +1,6 @@
 import json
 from collections import Counter
+from typing import List, Tuple
 
 def load_data(filename: str) -> List[int]:
     """Load a list of integers from a JSON file."""
@@ -34,7 +35,7 @@ def main():
     numbers = load_data('data.json')
     frequencies = calculate_frequency(numbers)
     third_highest_freq = get_third_highest_frequency(frequencies)
-    
+
     if third_highest_freq:
         output = {
             "sorted_frequency_distribution": frequencies,
@@ -47,4 +48,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+  
