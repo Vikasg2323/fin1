@@ -4,37 +4,47 @@ from typing import List, Tuple
 
 def load_data(filename: str) -> List[int]:
     """Load a list of integers from a JSON file."""
-    # TODO: Implement loading the list of numbers from a JSON file named `filename`.
-    pass  # placeholder
+    try:
+        with open(filename, 'r') as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+        return []
 
 def calculate_frequency(numbers: List[int]) -> List[Tuple[int, int]]:
     """Calculate the frequency of each unique number and return sorted by frequency descending."""
-    # TODO: Use collections.Counter to calculate frequency and sort by frequency (descending).
-    pass  # placeholder
+    counter = Counter(numbers)
+    sorted_frequencies = sorted(counter.items(), key=lambda x: x[1], reverse=True)
+    return sorted_frequencies
 
 def get_third_highest_frequency(frequencies: List[Tuple[int, int]]) -> Tuple[int, int]:
     """Retrieve the third highest frequency from the list of (number, frequency) tuples."""
-    # TODO: Implement logic to find the third highest frequency or handle case with less unique numbers.
-    pass  # placeholder
+    if len(frequencies) >= 3:
+        return frequencies[2]
+    else:
+        print("Not enough unique numbers for the third highest frequency.")
+        return None
 
 def save_output(data: dict, filename: str) -> None:
     """Save the given data as JSON in a file."""
-    # TODO: Implement saving the data to a JSON file named `filename`.
-    pass  # placeholder
+    with open(filename, 'w') as file:
+        json.dump(data, file, indent=4)
 
 def main():
     numbers = load_data('data.json')
     frequencies = calculate_frequency(numbers)
     third_highest_freq = get_third_highest_frequency(frequencies)
     
-    output = {
-        "sorted_frequency_distribution": frequencies,
-        "third_highest_frequency": third_highest_freq
-    }
-    
-    save_output(output, 'output.json')
-    
-    print("Output saved to output.json")
+    if third_highest_freq:
+        output = {
+            "sorted_frequency_distribution": frequencies,
+            "third_highest_frequency": third_highest_freq
+        }
+        save_output(output, 'output.json')
+        print("Output saved to output.json")
+    else:
+        print("Unable to compute third highest frequency.")
 
 if __name__ == "__main__":
     main()
